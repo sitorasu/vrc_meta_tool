@@ -215,9 +215,14 @@ def main():
 
     process = find_process_by_name("VRChat.exe")
 
-    if process is not None and not "--enable-sdk-log-levels" in process.args:
-        print("Error:\tSteamからプロパティ->起動オプションを設定を開いて--enable-sdk-log-levelsを追加してください")
-        return
+    # [sitorasu] --enable-sdk-log-levelsは大量のログ出力によるパフォーマンス低下の懸念がある
+    #            （ソース：https://docs.vrchat.com/docs/launch-options）
+    #             VRChat内設定→ログの出力＝フル でも必要なログは取れるはずで、こちらはパフォーマンス低下の
+    #             注意書きがないので、こちらを採用する（同じかもしれないけど）。
+    #             その都合で以下のチェックは無効にする。
+    # if process is not None and not "--enable-sdk-log-levels" in process.args:
+    #     print("Error:\tSteamからプロパティ->起動オプションを設定を開いて--enable-sdk-log-levelsを追加してください")
+    #     return
 
     log_file = config["log_file"]
     if log_file == "":
